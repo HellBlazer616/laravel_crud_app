@@ -14,7 +14,7 @@
         <div class="card-body">
             <h5 class="card-title">{{$project->title}}</h5>
             <p class="card-text">{{$project->description}}</p>
-            <a href="/project/{{$project->id}}/edit" class="btn btn-primary" style="width: 6rem;">Edit</a>
+            <a href="/project/{{$project->id}}/edit" class="btn btn-primary mb-4 mt-2" style="width: 6rem;">Edit</a>
 
             @if ($project->tasks->count())
             @foreach ($project->tasks as $task)

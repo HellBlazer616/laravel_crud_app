@@ -12,11 +12,13 @@
             My ToDo
         </div>
         @foreach ($projects as $project)
+        @if ($project->owner_id == auth()->id())
         <div class="card-body">
             <h5 class="card-title">{{$project->title}}</h5>
             <p class="card-text">{{$project->description}}</p>
             <a href="/project/{{$project->id}}" class="btn btn-primary" style="width: 6rem;">Show</a>
         </div>
+        @endif
         @endforeach
     </div>
 </div>

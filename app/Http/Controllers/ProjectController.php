@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ProjectCreated;
 use App\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ProjectController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('can:update,project')
+            ->except(['index', 'store', 'create']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -42,8 +50,12 @@ class ProjectController extends Controller
             'description' => ['required', 'min:3'],
         ]);
 
-        Project::create($validatedData);
+        $validatedData['owner_id'] = auth()->id();
+        $project = Project::create($validatedData);
 
+        Mail::to($project->owner->email)->send(
+            new ProjectCreated($project)
+        );
         return redirect()->action('ProjectController@index');
     }
 
